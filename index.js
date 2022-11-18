@@ -21,6 +21,7 @@ const db = knex({
 });
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json()); // latest version of exressJS now comes with Body-Parser!
@@ -41,6 +42,6 @@ app.post('/imageurl', (req, res) => {
   image.handleApiCall(req, res);
 });
 
-app.listen(3000, () => {
-  console.log('Everything is working on 3000, keep going');
+app.listen(PORT, () => {
+  console.log(`Everything is working on ${PORT}, keep going!`);
 });
