@@ -1,4 +1,4 @@
-const handleProfileGet = (db) => (req, res) => {
+const handleProfileGet = (req, res, db) => {
   const { id } = req.params;
   db.select("*")
     .from("users")
@@ -7,12 +7,12 @@ const handleProfileGet = (db) => (req, res) => {
       if (user.length) {
         res.json(user[0]);
       } else {
-        res.status(400).json("Not Found");
+        res.status(400).json("Not found");
       }
     })
-    .catch((err) => res.status(400).json("Error Getting user"));
+    .catch((err) => res.status(400).json("error getting user"));
 };
 
 module.exports = {
-  handleProfileGet: handleProfileGet,
+  handleProfileGet,
 };
