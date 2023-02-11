@@ -1,22 +1,22 @@
-const express = require('express');
-const bcrypt = require('bcrypt-nodejs');
-const cors = require('cors');
-const knex = require('knex');
+const express = require("express");
+const bcrypt = require("bcrypt-nodejs");
+const cors = require("cors");
+const knex = require("knex");
 
-const register = require('./controllers/register');
-const signin = require('./controllers/signin');
-const profile = require('./controllers/profile');
-const image = require('./controllers/image');
+const register = require("./controllers/register");
+const signin = require("./controllers/signin");
+const profile = require("./controllers/profile");
+const image = require("./controllers/image");
 
 const db = knex({
   // connect to your own database here:
-  client: 'pg',
+  client: "pg",
   connection: {
-    host: 'dpg-cdrphu94rebbgsh3sco0-a',
+    host: "dpg-cdrphu94rebbgsh3sco0-a",
     port: 5432,
-    user: 'rostorm',
+    user: "rostorm",
     password: process.env.PASSWORD,
-    database: 'smartbrain_jycq',
+    database: "smartbrain_jycq",
   },
 });
 
@@ -26,19 +26,19 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json()); // latest version of exressJS now comes with Body-Parser!
 
-app.get('/', (req, res) => {
-  res.send('Success');
+app.get("/", (req, res) => {
+  res.send("Success");
 });
 
-app.post('/signin', signin.handleSignin(db, bcrypt));
+app.post("/signin", signin.handleSignin(db, bcrypt));
 
-app.post('/register', register.handleRegister(db, bcrypt));
+app.post("/register", register.handleRegister(db, bcrypt));
 
-app.get('/profile/:id', profile.handleProfileGet(db));
+app.get("/profile/:id", profile.handleProfileGet(db));
 
-app.put('/image', image.handleImage(db));
+app.put("/image", image.handleImage(db));
 
-app.post('/imageurl', (req, res) => {
+app.post("/imageurl", (req, res) => {
   image.handleApiCall(req, res);
 });
 
