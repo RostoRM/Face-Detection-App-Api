@@ -1,9 +1,12 @@
 const handleRegister = (req, res, db, bcrypt) => {
   const { email, name, password } = req.body;
+
   if (!email || !name || !password) {
     return res.status(400).json('incorrect form submission');
   }
+
   const hash = bcrypt.hashSync(password);
+
   db.transaction((trx) => {
     trx
       .insert({
@@ -16,10 +19,6 @@ const handleRegister = (req, res, db, bcrypt) => {
         return trx('users')
           .returning('*')
           .insert({
-            // If you are using knex.js version 1.0.0 or higher this now returns an array of objects. Therefore, the code goes from:
-            // loginEmail[0] --> this used to return the email
-            // TO
-            // loginEmail[0].email --> this now returns the email
             email: loginEmail[0].email,
             name: name,
             joined: new Date(),
@@ -29,8 +28,14 @@ const handleRegister = (req, res, db, bcrypt) => {
           });
       })
       .then(trx.commit)
-      .catch(trx.rollback);
-  }).catch((err) => res.status(400).json('unable to register'));
+      .catch((err) => {
+        console.log('REGISTER TRANSACTION ERROR:', err);
+        trx.rollback(err);
+      });
+  }).catch((err) => {
+    console.log('REGISTER ERROR:', err);
+    res.status(400).json('unable to register');
+  });
 };
 
 module.exports = {
