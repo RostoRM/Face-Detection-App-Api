@@ -1,13 +1,14 @@
 # Face-Detection App
 
 1. Clone this repo
+
 2. Run `npm install`
+
 3. Run `npm start`
 
-4.You must add your own API key in the controllers/image.js file to connect to Clarifai API
+4. Face detection is powered by **MediaPipe Tasks Vision (Face Detector)** and runs directly in the browser.
 
-5.Add your own database credentials to server.js line 12
+5. Add your PostgreSQL database connection string as the `DATABASE_URL` environment variable.
 
-You can grab Clarifai API key https://www.clarifai.com/
+Make sure you use **PostgreSQL** instead of MySQL for this code base.
 
-Make sure you use postgreSQL instead of mySQL for this code base.
